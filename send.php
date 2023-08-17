@@ -1,8 +1,6 @@
 <?php
 
-
 require 'vendor/autoload.php'; 
-
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -26,12 +24,12 @@ if (isset($_POST['recipient'])) {
         $mail->setFrom('priyalchaudhari01@gmail.com', 'Priyal');
         $mail->addAddress($recipientEmail, 'Recipient Name');
 
-        // Content
+        
         $mail->isHTML(true);
         $mail->Subject = 'Test mail using PHPMailer';
         $mail->Body = 'Laravel';
 
-        // Attachment file
+        // Attachment 
         $mail->addAttachment('face.jpg');
 
         // CC
@@ -41,14 +39,34 @@ if (isset($_POST['recipient'])) {
         // BCC
         $mail->addBCC('nihar.talaviya@brainvire.com', 'BCC Recipient');
 
+        // simple mail
         $mail->send();
-        echo 'Email sent successfully';
+        echo 'Simple email sent successfully<br>';
+
+        // Attachment 
+        $mail->clearAllRecipients(); 
+        $mail->addAddress($recipientEmail, 'Recipient Name');
+        $mail->send();
+        echo 'Attachment email sent successfully<br>';
+
+        // CC 
+        $mail->clearAllRecipients(); 
+        $mail->addAddress($recipientEmail, 'Recipient Name');
+        $mail->addCC('isha.dadhania@gmail.com', 'CC Recipient');
+        $mail->addCC('parth.suthar@brainvire.com', 'CC Recipient');
+        $mail->send();
+        echo 'CC email sent successfully<br>';
+
+        // BCC 
+        $mail->clearAllRecipients();
+        $mail->addAddress($recipientEmail, 'Recipient Name');
+        $mail->addBCC('nihar.talaviya@brainvire.com', 'BCC Recipient');
+        $mail->send();
+        echo 'BCC email sent successfully<br>';
         
     } catch (Exception $e) {
         echo "Email sending failed. Error: {$mail->ErrorInfo}";
     }
 }
-
-
 
 ?>
